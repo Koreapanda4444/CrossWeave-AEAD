@@ -1,0 +1,42 @@
+name: Verify CrossWeave
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  native:
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        compiler: [gcc, clang]
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          persist-credentials: false
+      - name: Build, KAT, API and independent oracle checks
+        run: make CC=${{ matrix.compiler }} check
+      - name: Reproduce bounded attack observations and source fingerprints
+        run: make CC=${{ matrix.compiler }} research
+      - name: Check C++ public header
+        run: c++ -std=c++11 -Wall -Wextra -Werror -pedantic -x c++ -fsyntax-only include/crossweave.h
+
+  sanitizers:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          persist-credentials: false
+      - name: Address, undefined behavior and default leak sanitizer checks
+        run: make CC=gcc sanitize
+      - name: Reproduce attacks using the instrumented C core
+        run: make CC=gcc BUILD=build-sanitize research
