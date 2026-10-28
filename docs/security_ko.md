@@ -26,3 +26,27 @@ Nonce 충돌 확률은 대략 `n*(n-1)/2^129`다. 카운터라면 재시작·동
 다른 평문의 공통 첫 최대 16바이트를 복구한다. 이후 블록 복구나 태그 위조까지
 주장하지 않는다. 현재는 모드 수식의 대수적 결과이며 실행 AEAD 회귀는 후속
 구현에서 검증한다. misuse resistance·관련 키 안전성·forward secrecy는 미보장이다.
+
+## 기존 구성과의 비교
+
+NIST SP 800-232 §§3~4, Algorithm 3 및 duplex 원문 §§2~4와 비교했다.
+구조 유사성이나 크기 차이는 CrossWeave의 안전성·독창성 증명이 아니다.
+
+| 항목 | CrossWeave | Ascon-AEAD128 |
+|---|---|---|
+| 상태 / rate / capacity | 384 / 128 / 256비트 | 320 / 128 / 192비트 |
+| 키 / Nonce / 태그 | 각각 128비트 | 각각 128비트 |
+| 비선형층 | 이웃 레인 회전·AND·덧셈의 XOR 갱신 | 5비트 S-box와 레인별 선형 확산 |
+| 호출 | 공통 prefix의 앞 12/16라운드 | Ascon-p[8]/p[12] |
+| 초기 배치 | nonce, key, 128비트 IV | 64비트 IV, key, nonce |
+| 빈 AD | 패딩과 최종 AD 마커 처리 | AD 블록 처리 생략 |
+| 도메인 분리 | AD/메시지 완전·최종 및 최종화의 5개 마커 | AD 뒤 도메인 분리 비트 |
+| 최종화 | capacity key XOR, 마커, P16, rate XOR key | 별도 key 주입, p[12], 태그 추출 |
+
+공개 순열·rate에서의 평문 XOR/암호문 덮어쓰기·초기화/최종화 key 주입은
+duplex 계열의 공유 구조다. 상태 폭과 라운드 수 변경으로 기존 정리가
+이전되지는 않는다. 현재의 키 주입·패딩·공통-prefix 호출을 포함하는 별도
+보안 증명이 필요하다. 회전/레인 재명명에 대한 완전한 동치 판정은 미실시다.
+
+출처: [NIST SP 800-232](https://doi.org/10.6028/NIST.SP.800-232),
+[Duplexing the sponge](https://keccak.team/files/SpongeDuplex.pdf).
