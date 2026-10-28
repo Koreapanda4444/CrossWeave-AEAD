@@ -1,0 +1,213 @@
+{
+  "observations": {
+    "seed": 7165912498749007201,
+    "round_start": 0,
+    "fingerprints": {
+      "src/crossweave_p384.c": "57c89adc86d649534ab30223630eb5a5ef5caeb4c2e6aaa712c96ffc929e0778",
+      "src/crossweave_internal.h": "4eec7b8f328d44d671e68143b0db3f33de8da3ad8c9be50591293d10fe071687",
+      "src/crossweave_constants.h": "7c591717d9475dc38643a9b1d662d9a1e16e9afea7b4f3f975472930c4eb0abb",
+      "include/crossweave.h": "a13e9607a5b44301e4bf0c06d530a60fdd8f16edc3fa37af90545d1e82309af5",
+      "docs/spec_ko.md": "8f6727a5be31d9f3308caf6b265dc0d57d7e40be94ba01633954c8d99c1d1c97",
+      "tests/stage_vectors.h": "739ee80cb46ad79f0fbf4448ea8e92341f454ea54a122af41a11d109ef53840f",
+      "tests/permutation_vectors.h": "b19aec8106773a3c8790110b418ad3ea99a2a871cbdaef77a285a94e08aa652e",
+      "tests/oracle.py": "276f0578e33e62c01ee85b2fbbd8d9a8fa84a8c42d1438e87ef353fad6ad4ccc",
+      "tests/oracle_driver.c": "a5836e8195a1c3b5360a6ada2ff4107bc9af8cdadff9f28b41e7211c3f515f4d",
+      "research/early_gate.py": "54702d0cbcf211fabf6e22d8f8e71fa69d760bd20e587af1eb698ca6b37b9640"
+    },
+    "fixed_point_search": [
+      {
+        "rounds": 1,
+        "states": 1415,
+        "fixed_points": 0,
+        "cycles_of_length_at_most_two": 0
+      },
+      {
+        "rounds": 2,
+        "states": 1415,
+        "fixed_points": 0,
+        "cycles_of_length_at_most_two": 0
+      },
+      {
+        "rounds": 3,
+        "states": 1415,
+        "fixed_points": 0,
+        "cycles_of_length_at_most_two": 0
+      },
+      {
+        "rounds": 4,
+        "states": 1415,
+        "fixed_points": 0,
+        "cycles_of_length_at_most_two": 0
+      },
+      {
+        "rounds": 12,
+        "states": 1415,
+        "fixed_points": 0,
+        "cycles_of_length_at_most_two": 0
+      },
+      {
+        "rounds": 16,
+        "states": 1415,
+        "fixed_points": 0,
+        "cycles_of_length_at_most_two": 0
+      }
+    ],
+    "commutation_search": [
+      {
+        "rounds": 1,
+        "states_per_transform": 128,
+        "transforms": 69,
+        "maximum_matches": 0,
+        "nonzero_matches": []
+      },
+      {
+        "rounds": 2,
+        "states_per_transform": 128,
+        "transforms": 69,
+        "maximum_matches": 0,
+        "nonzero_matches": []
+      },
+      {
+        "rounds": 4,
+        "states_per_transform": 128,
+        "transforms": 69,
+        "maximum_matches": 0,
+        "nonzero_matches": []
+      },
+      {
+        "rounds": 12,
+        "states_per_transform": 128,
+        "transforms": 69,
+        "maximum_matches": 0,
+        "nonzero_matches": []
+      },
+      {
+        "rounds": 16,
+        "states_per_transform": 128,
+        "transforms": 69,
+        "maximum_matches": 0,
+        "nonzero_matches": []
+      }
+    ],
+    "single_bit_differentials": [
+      {
+        "rounds": 1,
+        "input_differences": 384,
+        "pairs_per_difference": 16,
+        "pairs": 6144,
+        "minimum_weight": 4,
+        "maximum_weight": 67,
+        "mean_weight": 17.379883,
+        "largest_identical_output_count_per_difference": 7,
+        "minimum_case": {
+          "input_bit": 0,
+          "sample": 5,
+          "input": "5ba582e8bed5a24c765532ced6d8fe544121a9309d388a45bc6044fb2061f708775d0ff5706f787754cf2eac4b2c6672",
+          "difference": "000000000000000000000000000800000000080002000000000000000000000000000000000800000000000000000000"
+        }
+      },
+      {
+        "rounds": 2,
+        "input_differences": 384,
+        "pairs_per_difference": 16,
+        "pairs": 6144,
+        "minimum_weight": 32,
+        "maximum_weight": 207,
+        "mean_weight": 122.725423,
+        "largest_identical_output_count_per_difference": 1,
+        "minimum_case": {
+          "input_bit": 41,
+          "sample": 4,
+          "input": "7a7a1c6c5a7f3669941e10dbab0407ef2ea64533d64c271db3074f74899c361dd3fbe831662abad857bb6863656ad14e",
+          "difference": "0008200000002020440000000800000000000344000a4444000000000000080008000000000000801840000544206104"
+        }
+      },
+      {
+        "rounds": 3,
+        "input_differences": 384,
+        "pairs_per_difference": 16,
+        "pairs": 6144,
+        "minimum_weight": 140,
+        "maximum_weight": 228,
+        "mean_weight": 189.143229,
+        "largest_identical_output_count_per_difference": 1,
+        "minimum_case": {
+          "input_bit": 15,
+          "sample": 4,
+          "input": "7a7a1c6c5a7f3669941e10dbab0407ef2ea64533d64c271db3074f74899c361dd3fbe831662abad857bb6863656ad14e",
+          "difference": "82dc0406a0b0c40291ea79f8858ac10430a8d940c897aa480d4264810501403c39da700045125408c866759b70463a0c"
+        }
+      },
+      {
+        "rounds": 4,
+        "input_differences": 384,
+        "pairs_per_difference": 16,
+        "pairs": 6144,
+        "minimum_weight": 155,
+        "maximum_weight": 232,
+        "mean_weight": 192.107585,
+        "largest_identical_output_count_per_difference": 1,
+        "minimum_case": {
+          "input_bit": 291,
+          "sample": 3,
+          "input": "412c63d6cf00b95ed28cf7ecd20f07067fc424ed474901f46f08678f28930f6d4e65aa76de531421fb728642b4cbeddc",
+          "difference": "8eee826dd8994014d323c5879f010e188084c48f9ba356485912012f03a956d18a9e25ce127929ac0363918020029c01"
+        }
+      },
+      {
+        "rounds": 12,
+        "input_differences": 384,
+        "pairs_per_difference": 16,
+        "pairs": 6144,
+        "minimum_weight": 158,
+        "maximum_weight": 224,
+        "mean_weight": 192.019531,
+        "largest_identical_output_count_per_difference": 1,
+        "minimum_case": {
+          "input_bit": 181,
+          "sample": 15,
+          "input": "654b16827bb480ae57714c029e702905064bb76a3d2e9c9e1f300b270d73098d1a131a69b4777acbb7d5a8a095c02965",
+          "difference": "6904218254409a822c5e02983d5e8105d367aad01283454a04174898c18dd0c1f9de0aa8b5c80a4fb108607c904ebecf"
+        }
+      },
+      {
+        "rounds": 16,
+        "input_differences": 384,
+        "pairs_per_difference": 16,
+        "pairs": 6144,
+        "minimum_weight": 155,
+        "maximum_weight": 224,
+        "mean_weight": 192.044434,
+        "largest_identical_output_count_per_difference": 1,
+        "minimum_case": {
+          "input_bit": 10,
+          "sample": 10,
+          "input": "ee5695dc4c8135316691fb24ec24f109581b494e5063b7b19e66bcfefd9c4712759a5511143e0866e6d1a0508b1a9e63",
+          "difference": "a8660a4b3be2e2442b29008bc704e951ed0c08e0ba09381828bc50d7e20871413f73c9188f341741734028c0aec06802"
+        }
+      }
+    ],
+    "one_round_distinguisher": {
+      "checks": 2048,
+      "oracle_queries_per_attack": 2,
+      "random_permutation_pass_probability": "2^128/(2^384-1)",
+      "witness": {
+        "first_round": 0,
+        "input": "903b00fbee76665cedbf9fc9ab7ead9c4a35b8d12e6c3418f26a8cad7326a78487f6a762b53de702157cdd3d51dd2a36",
+        "input_delta": "010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "output_delta": "000000000000000000000000000800000000184002000000000000000000000000000000000800000000000000000000"
+      }
+    },
+    "full_round_flags_in_bounded_search": [],
+    "oracle_queries": 101300,
+    "native_processes": 2752,
+    "largest_native_input_bytes": 72165
+  },
+  "measurements": {
+    "elapsed_seconds": 2.827168,
+    "python_max_rss_kib": 12544,
+    "largest_child_max_rss_kib": 12544,
+    "python": "3.12.14",
+    "platform": "Linux-6.18.55-x86_64-with-glibc2.39"
+  }
+}

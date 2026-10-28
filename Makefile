@@ -5,7 +5,7 @@ BUILD = build
 CPPFLAGS += -Iinclude -Isrc
 CFLAGS = -O2 -std=c11 -Wall -Wextra -Wpedantic -Wconversion -Wshadow -Werror
 
-.PHONY: all check sanitize clean
+.PHONY: all check research sanitize clean
 all: $(BUILD)/libcrossweave.a $(BUILD)/util $(BUILD)/stages $(BUILD)/api $(BUILD)/kat $(BUILD)/oracle_driver
 
 $(BUILD):
@@ -44,6 +44,9 @@ check: all
 
 sanitize:
 	$(MAKE) BUILD=build-sanitize CFLAGS='-O1 -g -std=c11 -Wall -Wextra -Wpedantic -Wconversion -Wshadow -Werror -fsanitize=address,undefined -fno-omit-frame-pointer' LDFLAGS='-fsanitize=address,undefined' check
+
+research: $(BUILD)/oracle_driver
+	$(PYTHON) research/early_gate.py $(BUILD)/oracle_driver --check docs/early_gate.json
 
 clean:
 	rm -rf build build-sanitize
