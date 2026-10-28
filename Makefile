@@ -6,7 +6,7 @@ CPPFLAGS += -Iinclude -Isrc
 CFLAGS = -O2 -std=c11 -Wall -Wextra -Wpedantic -Wconversion -Wshadow -Werror
 
 .PHONY: all check sanitize clean
-all: $(BUILD)/util $(BUILD)/stages
+all: $(BUILD)/libcrossweave.a $(BUILD)/util $(BUILD)/stages $(BUILD)/api
 
 $(BUILD):
 	mkdir -p $@
@@ -17,9 +17,19 @@ $(BUILD)/util: tests/util.c src/crossweave_internal.h | $(BUILD)
 $(BUILD)/stages: tests/stages.c tests/stage_vectors.h src/crossweave_p384.c src/crossweave_internal.h src/crossweave_constants.h | $(BUILD)
 	$(CC) $(CPPFLAGS) $(CFLAGS) tests/stages.c src/crossweave_p384.c $(LDFLAGS) -o $@
 
+$(BUILD)/crossweave_p384.o: src/crossweave_p384.c src/crossweave_internal.h src/crossweave_constants.h include/crossweave.h | $(BUILD)
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
+
+$(BUILD)/libcrossweave.a: $(BUILD)/crossweave_p384.o
+	$(AR) rcs $@ $<
+
+$(BUILD)/api: tests/api.c include/crossweave.h $(BUILD)/libcrossweave.a
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(BUILD)/libcrossweave.a $(LDFLAGS) -o $@
+
 check: all
 	$(BUILD)/util
 	$(BUILD)/stages
+	$(BUILD)/api
 	$(PYTHON) tests/framing.py
 	$(PYTHON) tests/constants.py
 	$(PYTHON) tests/vectors.py

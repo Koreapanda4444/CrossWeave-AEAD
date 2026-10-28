@@ -1,5 +1,6 @@
 #include "crossweave_internal.h"
 #include "crossweave_constants.h"
+#include "crossweave.h"
 
 static uint64_t mix(uint64_t x, uint64_t y, unsigned round, unsigned lane)
 {
@@ -46,3 +47,45 @@ void cw_unshuffle(uint64_t a[6])
     for (unsigned i = 0; i < 6; ++i)
         a[i] = out[i];
 }
+
+static int permute(uint8_t *state, unsigned first, unsigned count, int inverse)
+{
+    uint64_t a[6];
+    if (state == NULL || first > 16u || count > 16u - first)
+        return CROSSWEAVE_ERR_INPUT;
+    for (unsigned i = 0; i < 6; ++i)
+        a[i] = cw_load64(state + 8u * i);
+    for (unsigned n = 0; n < count; ++n) {
+        unsigned r = inverse ? first + count - 1u - n : first + n;
+        if (inverse) {
+            cw_unshuffle(a);
+            cw_add_constants(a, r);
+            /* Updates within one parity commute: only the other parity is read. */
+            cw_odd(a, r);
+            cw_even(a, r);
+        } else {
+            cw_even(a, r);
+            cw_odd(a, r);
+            cw_add_constants(a, r);
+            cw_shuffle(a);
+        }
+    }
+    for (unsigned i = 0; i < 6; ++i)
+        cw_store64(state + 8u * i, a[i]);
+    return CROSSWEAVE_OK;
+}
+
+int crossweave_permute(uint8_t *state, unsigned first_round, unsigned round_count)
+{
+    return permute(state, first_round, round_count, 0);
+}
+
+int crossweave_permute_inverse(uint8_t *state, unsigned first_round, unsigned round_count)
+{
+    return permute(state, first_round, round_count, 1);
+}
+
+int crossweave_p12(uint8_t *state) { return crossweave_permute(state, 0, 12); }
+int crossweave_p16(uint8_t *state) { return crossweave_permute(state, 0, 16); }
+int crossweave_p12_inverse(uint8_t *state) { return crossweave_permute_inverse(state, 0, 12); }
+int crossweave_p16_inverse(uint8_t *state) { return crossweave_permute_inverse(state, 0, 16); }
