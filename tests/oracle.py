@@ -4,6 +4,7 @@ FIPS 202 Keccak-f[1600]/SHAKE256, with generated round/rotation constants.
 No C implementation, hashlib output, or generated CrossWeave table is imported.
 """
 MASK = (1 << 64) - 1
+from functools import lru_cache
 
 
 def rol(x, n):
@@ -57,9 +58,10 @@ def shake256(data, length):
     return bytes(out[:length])
 
 
+@lru_cache(maxsize=1)
 def round_constants():
-    return [[int.from_bytes(shake256(f'cw-p384/round-{r}/lane-{j}'.encode('ascii'), 8),
-                            'little') for j in (0, 3)] for r in range(16)]
+    return tuple(tuple(int.from_bytes(shake256(f'cw-p384/round-{r}/lane-{j}'.encode('ascii'), 8),
+                                      'little') for j in (0, 3)) for r in range(16))
 
 
 def mix(x, y, r, i):
@@ -80,3 +82,29 @@ def stages(words, r, constants):
     shuffled = [rol(added[p], n) for p, n in
                 zip((2, 5, 1, 4, 0, 3), (1, 7, 19, 31, 43, 57))]
     return even, odd, added, shuffled
+
+
+def trace(data, first=0, count=16):
+    a = [int.from_bytes(data[8 * i:8 * (i + 1)], 'little') for i in range(6)]
+    history = []
+    for r in range(first, first + count):
+        a = stages(a, r, round_constants())[-1]
+        history.append(b''.join(v.to_bytes(8, 'little') for v in a))
+    return history
+
+
+def permutation(data, first=0, count=16, inverse=False):
+    if not inverse:
+        return trace(data, first, count)[-1] if count else data
+    a = [int.from_bytes(data[8 * i:8 * (i + 1)], 'little') for i in range(6)]
+    for r in reversed(range(first, first + count)):
+        undone = [0] * 6
+        for v, p, n in zip(a, (2, 5, 1, 4, 0, 3), (1, 7, 19, 31, 43, 57)):
+            undone[p] = rol(v, -n)
+        undone[0] ^= round_constants()[r][0]
+        undone[3] ^= round_constants()[r][1]
+        odd = [v ^ mix(undone[(i + 1) % 6], undone[(i - 1) % 6], r, i)
+               if i % 2 else v for i, v in enumerate(undone)]
+        a = [v ^ mix(odd[(i + 1) % 6], odd[(i - 1) % 6], r, i)
+             if i % 2 == 0 else v for i, v in enumerate(odd)]
+    return b''.join(v.to_bytes(8, 'little') for v in a)
