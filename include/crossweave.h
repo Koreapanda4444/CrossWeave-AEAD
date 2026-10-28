@@ -19,4 +19,24 @@ enum crossweave_status {
     CROSSWEAVE_ERR_MEMORY = -3
 };
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+/* In-place 48-byte LE state, with no alignment requirement. NULL is invalid.
+ * first_round <= 16, round_count <= 16-first_round; zero rounds is identity.
+ * Invalid arguments return ERR_INPUT without changing a non-NULL state.
+ * These public, unkeyed functions do not provide AEAD encryption. */
+int crossweave_permute(uint8_t *state, unsigned first_round, unsigned round_count);
+int crossweave_permute_inverse(uint8_t *state, unsigned first_round,
+                              unsigned round_count);
+int crossweave_p12(uint8_t *state);
+int crossweave_p16(uint8_t *state);
+int crossweave_p12_inverse(uint8_t *state);
+int crossweave_p16_inverse(uint8_t *state);
+
+#ifdef __cplusplus
+}
+#endif
+
 #endif
