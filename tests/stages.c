@@ -13,6 +13,15 @@ int main(void)
         assert(memcmp(a, stage_vectors[n].even, sizeof(a)) == 0);
         cw_even(a, stage_vectors[n].round);
         assert(memcmp(a, stage_vectors[n].input, sizeof(a)) == 0);
+        cw_even(a, stage_vectors[n].round);
+        cw_odd(a, stage_vectors[n].round);
+        assert(memcmp(a, stage_vectors[n].odd, sizeof(a)) == 0);
+        cw_add_constants(a, stage_vectors[n].round);
+        assert(memcmp(a, stage_vectors[n].added, sizeof(a)) == 0);
+        cw_add_constants(a, stage_vectors[n].round);
+        cw_odd(a, stage_vectors[n].round);
+        cw_even(a, stage_vectors[n].round);
+        assert(memcmp(a, stage_vectors[n].input, sizeof(a)) == 0);
     }
     puts("Frozen C intermediate vectors passed");
     return 0;

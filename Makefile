@@ -14,7 +14,7 @@ $(BUILD):
 $(BUILD)/util: tests/util.c src/crossweave_internal.h | $(BUILD)
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(LDFLAGS) -o $@
 
-$(BUILD)/stages: tests/stages.c tests/stage_vectors.h src/crossweave_p384.c src/crossweave_internal.h | $(BUILD)
+$(BUILD)/stages: tests/stages.c tests/stage_vectors.h src/crossweave_p384.c src/crossweave_internal.h src/crossweave_constants.h | $(BUILD)
 	$(CC) $(CPPFLAGS) $(CFLAGS) tests/stages.c src/crossweave_p384.c $(LDFLAGS) -o $@
 
 check: all
