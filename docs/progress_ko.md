@@ -17,6 +17,7 @@
 | 공개 상수·SHAKE 부품 검사 | NIST 빈 입력 KAT, 독립 Keccak와 hashlib의 흡수/출력 경계·32개 상수·IV 대조 |
 | 짝수 레인 갱신 | 별도 수식 oracle의 고정 중간 벡터 12개와 involution 대조 |
 | 홀수 갱신·상수 주입 | 짝수 갱신 뒤 독립 중간 벡터·역단계 복구, ASan/UBSan |
+| 레인 재배열·회전·역변환 | 고정 중간 벡터 12개와 모든 단일 비트 384개 양방향 복구 |
 
 로컬 환경에서는 LeakSanitizer의 `/proc` 접근이 차단되어
 `ASAN_OPTIONS=detect_leaks=0 make sanitize`로 실행한다. 주소/UB 검사는 유지하며

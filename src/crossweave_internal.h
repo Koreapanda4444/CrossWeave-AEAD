@@ -11,6 +11,8 @@ _Static_assert(sizeof(uint64_t) == 8, "CrossWeave requires uint64_t");
 void cw_even(uint64_t a[6], unsigned round);
 void cw_odd(uint64_t a[6], unsigned round);
 void cw_add_constants(uint64_t a[6], unsigned round);
+void cw_shuffle(uint64_t a[6]);
+void cw_unshuffle(uint64_t a[6]);
 
 static inline uint64_t cw_load64(const uint8_t *p)
 {
