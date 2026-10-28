@@ -17,6 +17,7 @@ $(BUILD)/util: tests/util.c src/crossweave_internal.h | $(BUILD)
 check: all
 	$(BUILD)/util
 	$(PYTHON) tests/framing.py
+	$(PYTHON) tests/constants.py
 
 sanitize:
 	$(MAKE) BUILD=build-sanitize CFLAGS='-O1 -g -std=c11 -Wall -Wextra -Wpedantic -Wconversion -Wshadow -Werror -fsanitize=address,undefined -fno-omit-frame-pointer' LDFLAGS='-fsanitize=address,undefined' check
