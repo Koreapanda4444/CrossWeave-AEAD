@@ -7,6 +7,9 @@
 _Static_assert(CHAR_BIT == 8, "CrossWeave requires 8-bit bytes");
 _Static_assert(sizeof(uint64_t) == 8, "CrossWeave requires uint64_t");
 
+/* Internal lane operations require six lanes and a round in 0..15. */
+void cw_even(uint64_t a[6], unsigned round);
+
 static inline uint64_t cw_load64(const uint8_t *p)
 {
     uint64_t x = 0;

@@ -60,3 +60,23 @@ def shake256(data, length):
 def round_constants():
     return [[int.from_bytes(shake256(f'cw-p384/round-{r}/lane-{j}'.encode('ascii'), 8),
                             'little') for j in (0, 3)] for r in range(16)]
+
+
+def mix(x, y, r, i):
+    return (rol(x, (7 * i + 3 * r) % 63 + 1) ^
+            rol(y, (13 * i + 5 * r) % 63 + 1) ^
+            (x & rol(y, 11)) ^ ((x + y) & MASK))
+
+
+def stages(words, r, constants):
+    # Snapshot each parity: this independently expresses the bipartite update.
+    even = [v ^ mix(words[(i + 1) % 6], words[(i - 1) % 6], r, i)
+            if i % 2 == 0 else v for i, v in enumerate(words)]
+    odd = [v ^ mix(even[(i + 1) % 6], even[(i - 1) % 6], r, i)
+           if i % 2 else v for i, v in enumerate(even)]
+    added = odd.copy()
+    added[0] ^= constants[r][0]
+    added[3] ^= constants[r][1]
+    shuffled = [rol(added[p], n) for p, n in
+                zip((2, 5, 1, 4, 0, 3), (1, 7, 19, 31, 43, 57))]
+    return even, odd, added, shuffled

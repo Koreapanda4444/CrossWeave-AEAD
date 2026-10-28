@@ -15,6 +15,7 @@
 | C11 LE·회전 유틸 | `make check`, ASan/UBSan; 비정렬·0/64/UINT_MAX 포함 |
 | 공개 순열 인터페이스 | C/C++ 헤더 구문 확인, NULL·범위·0라운드 계약 정의 |
 | 공개 상수·SHAKE 부품 검사 | NIST 빈 입력 KAT, 독립 Keccak와 hashlib의 흡수/출력 경계·32개 상수·IV 대조 |
+| 짝수 레인 갱신 | 별도 수식 oracle의 고정 중간 벡터 12개와 involution 대조 |
 
 로컬 환경에서는 LeakSanitizer의 `/proc` 접근이 차단되어
 `ASAN_OPTIONS=detect_leaks=0 make sanitize`로 실행한다. 주소/UB 검사는 유지하며

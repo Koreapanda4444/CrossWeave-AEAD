@@ -1,0 +1,19 @@
+#include "crossweave_internal.h"
+#include "stage_vectors.h"
+#include <assert.h>
+#include <stdio.h>
+#include <string.h>
+
+int main(void)
+{
+    for (size_t n = 0; n < sizeof(stage_vectors) / sizeof(stage_vectors[0]); ++n) {
+        uint64_t a[6];
+        memcpy(a, stage_vectors[n].input, sizeof(a));
+        cw_even(a, stage_vectors[n].round);
+        assert(memcmp(a, stage_vectors[n].even, sizeof(a)) == 0);
+        cw_even(a, stage_vectors[n].round);
+        assert(memcmp(a, stage_vectors[n].input, sizeof(a)) == 0);
+    }
+    puts("Frozen C intermediate vectors passed");
+    return 0;
+}
