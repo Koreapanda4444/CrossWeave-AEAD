@@ -12,5 +12,10 @@
 | 프레이밍 자동 검사 | `python3 tests/framing.py`: 작은 알파벳 전수·경계·단계 구분·악성 프레임 |
 | 선행 구성 비교 | NIST Ascon·duplex 원문 대조, 보안 정리 이전과 완전 동치 판정은 미해결 |
 | 정확한 순열·역순열·상수 규칙 | 이웃 레인 누락 보완 명시, 단계별 전단사성 논증 |
+| C11 LE·회전 유틸 | `make check`, ASan/UBSan; 비정렬·0/64/UINT_MAX 포함 |
+
+로컬 환경에서는 LeakSanitizer의 `/proc` 접근이 차단되어
+`ASAN_OPTIONS=detect_leaks=0 make sanitize`로 실행한다. 주소/UB 검사는 유지하며
+누수 검사를 통과했다는 뜻은 아니다. 현재 순열은 동적 할당을 사용하지 않는다.
 
 문서 변경은 인계 수식과 대조하고 `git diff --check`로 검사한다.
