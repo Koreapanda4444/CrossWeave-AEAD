@@ -1,0 +1,22 @@
+#ifndef CROSSWEAVE_H
+#define CROSSWEAVE_H
+
+#include <stddef.h>
+#include <stdint.h>
+
+#define CROSSWEAVE_STATE_BYTES 48u
+#define CROSSWEAVE_RATE_BYTES 16u
+#define CROSSWEAVE_CAPACITY_BYTES 32u
+#define CROSSWEAVE_KEY_BYTES 16u
+#define CROSSWEAVE_NONCE_BYTES 16u
+#define CROSSWEAVE_TAG_BYTES 16u
+#define CROSSWEAVE_MAX_INPUT_BYTES ((size_t)16777216)
+
+enum crossweave_status {
+    CROSSWEAVE_OK = 0,
+    CROSSWEAVE_ERR_INPUT = -1,
+    CROSSWEAVE_ERR_AUTH = -2,
+    CROSSWEAVE_ERR_MEMORY = -3
+};
+
+#endif
